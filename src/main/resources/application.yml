@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.104:3306/exam_system_db
+    #url: jdbc:mysql://localhost:3306/exam_system_db
+    username: root
+    password: SNNU_pro_3418!
+  data:
+    mongodb:
+       uri: mongodb://localhost:27017/qc
+
+server:
+  port: 8088
+
+logging:
+  level:
+    com.learnhow.springboot.mybatis.dao: debug
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.example.demo.domain
+
+

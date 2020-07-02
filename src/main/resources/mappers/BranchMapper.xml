@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.BranchDao">
+    <resultMap id="BaseResultMap" type="com.example.demo.domain.Branch">
+        <result column="branch_id" property="branchId" />
+        <result column="branch_name" property="branchName" />
+        <result column="depart_id" property="departId" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <parameterMap id="Branch" type="com.example.demo.domain.Branch"/>
+
+    <sql id="Base_Column_List">
+		branch_id, branch_name, depart_id,description
+	</sql>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from branch
+        where branch_id = #{branchId}
+    </select>
+
+    <select id="getByDepart" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from branch
+        where depart_id = #{departId}
+    </select>
+
+    <insert id="addBranch" parameterType="com.example.demo.domain.Branch" >
+        insert into branch(branch_id,depart_id,branch_name, description) values(#{branch.branchId},#{branch.departId},#{branch.branchName},#{branch.description})
+    </insert>
+
+    <delete id="deleteById" parameterType="String">
+    	delete from branch where branch_id = #{branchId}
+  	</delete>
+
+    <update id="updateById"  parameterType="com.example.demo.domain.Branch">
+        update branch
+        <trim prefix="set" suffixOverrides=",">
+            <if test="branch.branchName!=null">branch_name=#{branch.branchName},</if>
+            <if test="branch.departId!=null">depart_id=#{branch.departId},</if>
+            <if test="branch.description!=null">description=#{branch.description},</if>
+        </trim>
+        where branch_id=#{branch.branchId}
+    </update>
+
+</mapper>

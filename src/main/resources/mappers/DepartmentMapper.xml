@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.DepartmentDao">
+    <resultMap id="BaseResultMap" type="com.example.demo.domain.Department">
+        <result column="depart_id" property="departmentId" />
+        <result column="depart_name" property="departmentName" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <parameterMap id="Department" type="com.example.demo.domain.Department"/>
+
+    <sql id="Base_Column_List">
+		depart_id, depart_name, description
+	</sql>
+
+    <select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from department
+        where depart_name = #{departmentName}
+    </select>
+
+    <select id="getAllDepartments" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from department
+    </select>
+
+    <insert id="addDepartment" parameterType="com.example.demo.domain.Department" useGeneratedKeys="true" keyProperty="departmentId">
+        insert into department(depart_id,depart_name, description) values(#{departmentId},#{departmentName}, #{description})
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+    	delete from department where depart_id = #{departmentId}
+  	</delete>
+
+    <update id="updateById"  parameterType="com.example.demo.domain.Department">
+        update department
+        <trim prefix="set" suffixOverrides=",">
+            <if test="departmentName!=null">depart_name=#{departmentName},</if>
+            <if test="description!=null">description=#{description},</if>
+        </trim>
+        where depart_id=#{departmentId}
+    </update>
+
+</mapper>
